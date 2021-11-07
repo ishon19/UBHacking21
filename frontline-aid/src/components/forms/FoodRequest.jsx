@@ -4,6 +4,10 @@ import React from "react";
 import theme from "../../theme";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const validationSchema = yup.object({
   name: yup
@@ -24,6 +28,7 @@ const FoodRequestForm = () => {
       address: "",
     },
     onSubmit: (values) => {
+      // push the data to the database
       console.log(JSON.stringify(values, null, 2));
     },
   });
@@ -49,17 +54,22 @@ const FoodRequestForm = () => {
           <Box mt="1rem" mb="1rem" padding="2rem">
             <Grid container direction="column" spacing={2}>
               <Grid item>
-                <TextField
-                  fullWidth
-                  required
-                  id="name"
-                  name="name"
-                  label="Name"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
-                />
+                <FormControl fullWidth>
+                  <InputLabel id="label">Select</InputLabel>
+                  <Select
+                    name="name"
+                    id="name"
+                    label="Food Item"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
+                  >
+                    <MenuItem value="burgers">Burgers</MenuItem>
+                    <MenuItem value="subs">Subs</MenuItem>
+                    <MenuItem value="pasta">Pasta</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item>
                 <TextField

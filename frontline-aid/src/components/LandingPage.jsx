@@ -76,13 +76,16 @@ const LandingPage = () => {
           categories.map((item) => {
             return (
               <Grid item key={uuidv4()}>
-                <Link to={getRouteFromName(item.name)}>
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={getRouteFromName(item.name)}
+                >
                   <Card>
                     <CardMedia
                       component="img"
                       image={item.imageUrl}
                       height="250px"
-                      maxWidth={500}
+                      width="300px"                      
                     />
                     <CardContent>
                       <Typography
