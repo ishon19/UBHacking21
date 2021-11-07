@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { getUserId } from "../../utils/common-utils";
 import { doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../../server/Firebase";
+import { v4 as uuidv4 } from "uuid";
 
 const validationSchema = yup.object({
   pickup: yup
@@ -24,10 +25,11 @@ const CabRequestForm = () => {
     const userId = await getUserId();
     console.log("User ID: ", userId, " and values: ", values);
     if (userId) {
-      await setDoc(doc(db, "serviceRequests", "cabRequests"), {
+      await setDoc(doc(db, "serviceRequests", uuidv4()), {
         ...values,
         userId,
         resolved: false,
+        type: "cab",
       });
     }
   };

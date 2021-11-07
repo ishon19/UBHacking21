@@ -11,6 +11,7 @@ import Select from "@mui/material/Select";
 import { getUserId } from "../../utils/common-utils";
 import { doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../../server/Firebase";
+import { v4 as uuidv4 } from "uuid";
 
 const validationSchema = yup.object({
   name: yup
@@ -28,10 +29,11 @@ const FoodRequestForm = () => {
     const userId = await getUserId();
     console.log("User ID: ", userId, " and values: ", values);
     if (userId) {
-      await setDoc(doc(db, "serviceRequests", "foodRequests"), {
+      await setDoc(doc(db, "serviceRequests", uuidv4()), {
         ...values,
         userId,
         resolved: false,
+        type: "food",
       });
     }
   };

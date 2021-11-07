@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import React from "react";
 
 import "./App.css";
 import LandingPage from "./components/LandingPage";
