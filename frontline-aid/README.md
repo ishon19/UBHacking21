@@ -1,70 +1,24 @@
-# Getting Started with Create React App
+## Inspiration
+We worked on Wegmans challenge and the main inspiration behind the project was the challenges and problems faced by frontline workers especially in such a pandemic hit era. This has been a testing time for each one of us but the frontline workers were the worst hit - be it mentally, emotionally or physically. This project has been an effort to conceptualize the idea to provide digital form of support to the frontline workers.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### UB Hacking 2021
 
-## Available Scripts
+## What it does
+In this application a user logs in to his or her account and create requests for ordering food or booking a cab. Users can also track their requests on the portal.
 
-In the project directory, you can run:
+## How we built it
+For this project we used ReactJs for front end design and for the backend we used the Google Cloud Firebase.
 
-### `npm start`
+## Challenges we ran into
+We used the Google Cloud Firebase for the first time. Initilally we faced some difficulties but eventually we got the hang of it and implemented the google authentication and real time data storage.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Accomplishments that we're proud of
+Luckily we were able to build a working prototype within the given time frame although there is a lot to improve. We also plan to build a cross platform application using React native / flutter.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## What we learned
+We learned more about ReactJs and also learned how to use Firebase.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## What's next for Frontline Aid
+We can integrate the Map API to fetch location while ordering food or booking a cab. Also, we can leverage Firestore to trigger real time notifications for the reminder module.
