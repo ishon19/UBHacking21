@@ -1,7 +1,7 @@
+## UB Hacking 2021
+
 ## Inspiration
 We worked on Wegmans challenge and the main inspiration behind the project was the challenges and problems faced by frontline workers especially in such a pandemic hit era. This has been a testing time for each one of us but the frontline workers were the worst hit - be it mentally, emotionally or physically. This project has been an effort to conceptualize the idea to provide digital form of support to the frontline workers.
-
-### UB Hacking 2021
 
 ## What it does
 In this application a user logs in to his or her account and create requests for ordering food or booking a cab. Users can also track their requests on the portal.
