@@ -20,4 +20,13 @@ const getUserId = async () => {
   return null;
 };
 
-export { getRouteFromName, checkIfUserLoggedIn, getUserId };
+const getUserName = async () => {
+  const userInfo = await localStorage.getItem("userInfo");
+  if (userInfo) {
+    const userInfoParsed = JSON.parse(userInfo);
+    return userInfoParsed.displayName;
+  }
+  return null;
+};
+
+export { getRouteFromName, checkIfUserLoggedIn, getUserId, getUserName };

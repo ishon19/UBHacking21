@@ -11,11 +11,12 @@ import FoodRequestForm from "./components/forms/FoodRequest";
 import { SnackbarProvider } from "notistack";
 import CabRequestForm from "./components/forms/CabRequest";
 import { checkIfUserLoggedIn } from "./utils/common-utils";
+import RequestTracker from "./components/RequestTracker";
 
 function App() {
   const loggedIn = checkIfUserLoggedIn();
   console.log("loggedIn", loggedIn);
-  
+
   return (
     <div className="App">
       <SnackbarProvider
@@ -50,6 +51,11 @@ function App() {
                 exact
                 path="/request-reminders"
                 element={loggedIn && <CabRequestForm />}
+              />
+              <Route
+                exact
+                path="/view-status"
+                element={loggedIn && <RequestTracker />}
               />
             </Routes>
           </Router>

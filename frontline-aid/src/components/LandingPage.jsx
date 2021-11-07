@@ -115,13 +115,21 @@ const LandingPage = () => {
           </Box>
         )}
       </Grid>
-      {isLoggedIn && <Grid container justifyContent="center">
-        <Grid item>
-          <Button color="primary" variant="contained" className={classes.root}>
-            Go to home page
-          </Button>
+      {isLoggedIn && (
+        <Grid container justifyContent="center">
+          <Grid item>
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.root}
+            >
+              <Link to="/view-status" style={{ textDecoration: "none" }}>
+                View my requests
+              </Link>
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>}
+      )}
     </Box>
   );
 };
