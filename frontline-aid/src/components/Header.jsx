@@ -4,8 +4,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
 import { doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../server/Firebase";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+} from "firebase/auth";
+import { useSnackbar } from "notistack";
 
 const Header = () => {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
   const _setDocs = async () =>
     await setDoc(doc(db, "cities", "LA"), {
       name: "Los Angeles",
@@ -13,9 +22,52 @@ const Header = () => {
       country: "USA",
     });
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleAuth = () => {
     console.log("Login button clicked");
-    _setDocs();
+    if (!loggedIn) {
+      const provider = new GoogleAuthProvider();
+      const auth = new getAuth();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          console.log("Logged in");
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          const user = result.user.displayName;
+          console.log("User Info: ", user, " token: ", token);
+          enqueueSnackbar(`Welcome, ${user}`, {
+            variant: "success",
+            autoHideDuration: 5000,
+          });
+          setLoggedIn(true);
+        })
+        .catch((error) => {
+          console.log("Error: ", error);
+        });
+    } else {
+      console.log("Logging out");
+      const auth = getAuth();
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful.
+          console.log("Logged out");
+          setLoggedIn(false);
+          enqueueSnackbar("Logged out!", {
+            variant: "success",
+            autoHideDuration: 5000,
+          });
+          window.location.href = "/";
+        })
+        .catch((error) => {
+          // An error happened.
+          console.log("Signout Error: ", error);
+          enqueueSnackbar("Something went wrong, please try again!", {
+            variant: "warning",
+            autoHideDuration: 5000,
+          });
+        });
+    }
   };
 
   return (
@@ -37,7 +89,7 @@ const Header = () => {
           <Box sx={{ flexGrow: 1 }} />
           <Button sx={{ color: "white" }}>
             <Typography variant="h6" onClick={handleAuth}>
-              Login
+              {loggedIn ? "Logout" : "Login"}
             </Typography>
           </Button>
         </Toolbar>
