@@ -2,8 +2,6 @@ import { AppBar, IconButton, Toolbar, Typography, Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useEffect } from "react";
-import { doc, setDoc } from "firebase/firestore/lite";
-import { db } from "../server/Firebase";
 import {
   getAuth,
   signInWithPopup,
@@ -15,14 +13,6 @@ import { checkIfUserLoggedIn } from "../utils/common-utils";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
-
-  const _setDocs = async () =>
-    await setDoc(doc(db, "cities", "LA"), {
-      name: "Los Angeles",
-      state: "CA",
-      country: "USA",
-    });
-
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {

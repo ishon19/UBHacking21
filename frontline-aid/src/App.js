@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
 
 import "./App.css";
@@ -12,10 +12,10 @@ import { SnackbarProvider } from "notistack";
 import CabRequestForm from "./components/forms/CabRequest";
 import { checkIfUserLoggedIn } from "./utils/common-utils";
 import RequestTracker from "./components/RequestTracker";
+import UtilityRequestForm from "./components/forms/UtilityRequest";
 
 function App() {
   const loggedIn = checkIfUserLoggedIn();
-  console.log("loggedIn", loggedIn);
 
   return (
     <div className="App">
@@ -40,7 +40,7 @@ function App() {
               <Route
                 exact
                 path="/request-utilities"
-                element={loggedIn && <FoodRequestForm />}
+                element={loggedIn && <UtilityRequestForm />}
               />
               <Route
                 exact

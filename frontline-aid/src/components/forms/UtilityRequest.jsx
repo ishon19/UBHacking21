@@ -4,6 +4,10 @@ import React from "react";
 import theme from "../../theme";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import { getUserId } from "../../utils/common-utils";
 import { doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../../server/Firebase";
@@ -11,19 +15,18 @@ import { v4 as uuidv4 } from "uuid";
 import { useSnackbar } from "notistack";
 
 const validationSchema = yup.object({
-  pickup: yup
-    .string("Enter your location")
+  name: yup
+    .string("Select the utility item")
     .min(1, "Enter at least one character")
-    .required("Pickup location is required."),
-  destination: yup
-    .string("Where do you want to go?")
-    .min(1, "This field cannot be left blank.")
     .required("This field is required"),
+  amount: yup
+    .string("Enter Amount")
+    .min(1, "Address should be atleast of 1 characters")
+    .required("Amount is required"),
 });
 
-const CabRequestForm = () => {
+const UtilityRequestForm = () => {
   const { enqueueSnackbar } = useSnackbar();
-
   const _setDocs = async (values) => {
     const userId = await getUserId();
     console.log("User ID: ", userId, " and values: ", values);
@@ -32,10 +35,10 @@ const CabRequestForm = () => {
         ...values,
         userId,
         resolved: false,
-        type: "cab",
+        type: "utility",
       });
 
-      enqueueSnackbar("Cab request submitted successfully", {
+      enqueueSnackbar("Utility request submitted successfully", {
         variant: "success",
       });
 
@@ -48,8 +51,8 @@ const CabRequestForm = () => {
   const formik = useFormik({
     validationSchema: validationSchema,
     initialValues: {
-      pickup: "",
-      destination: "",
+      utility: "",
+      amount: 0,
     },
     onSubmit: (values) => {
       // push the data to the database
@@ -73,40 +76,42 @@ const CabRequestForm = () => {
         }}
       >
         <Typography variant="h5" color={theme.palette.primary.main}>
-          Request Cab
+          Request Daily Utility
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <Box mt="1rem" mb="1rem" padding="2rem">
             <Grid container direction="column" spacing={2}>
               <Grid item>
-                <TextField
-                  fullWidth
-                  required
-                  name="destination"
-                  id="destination"
-                  label="Destination"
-                  value={formik.values.destination}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.destination &&
-                    Boolean(formik.errors.destination)
-                  }
-                  helperText={
-                    formik.touched.destination && formik.errors.destination
-                  }
-                />
+                <FormControl fullWidth>
+                  <InputLabel id="label">Select</InputLabel>
+                  <Select
+                    name="utility"
+                    id="utility"
+                    label="Utility Items"
+                    value={formik.values.utility}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.utility && Boolean(formik.errors.utility)
+                    }
+                    helperText={formik.touched.utility && formik.errors.utility}
+                  >
+                    <MenuItem value="burgers">Mask</MenuItem>
+                    <MenuItem value="subs">Sanitizer</MenuItem>
+                    <MenuItem value="pasta">PPE</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item>
                 <TextField
                   fullWidth
                   required
-                  id="pickup"
-                  name="pickup"
-                  label="Pick up location"
-                  value={formik.values.pickup}
+                  id="amount"
+                  name="amount"
+                  label="Amount"
+                  value={formik.values.amount}
                   onChange={formik.handleChange}
-                  error={formik.touched.pickup && Boolean(formik.errors.pickup)}
-                  helperText={formik.touched.pickup && formik.errors.pickup}
+                  error={formik.touched.amount && Boolean(formik.errors.amount)}
+                  helperText={formik.touched.amount && formik.errors.amount}
                 />
               </Grid>
               <Grid item>
@@ -122,4 +127,4 @@ const CabRequestForm = () => {
   );
 };
 
-export default CabRequestForm;
+export default UtilityRequestForm;

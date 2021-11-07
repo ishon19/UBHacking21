@@ -12,6 +12,7 @@ import { getUserId } from "../../utils/common-utils";
 import { doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../../server/Firebase";
 import { v4 as uuidv4 } from "uuid";
+import { useSnackbar } from "notistack";
 
 const validationSchema = yup.object({
   name: yup
@@ -25,6 +26,7 @@ const validationSchema = yup.object({
 });
 
 const FoodRequestForm = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const _setDocs = async (values) => {
     const userId = await getUserId();
     console.log("User ID: ", userId, " and values: ", values);
@@ -35,6 +37,14 @@ const FoodRequestForm = () => {
         resolved: false,
         type: "food",
       });
+      
+      enqueueSnackbar("Food request submitted successfully", {
+        variant: "success",
+      });
+
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
     }
   };
 

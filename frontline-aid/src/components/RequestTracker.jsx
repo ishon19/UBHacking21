@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { getStatus } from "../services/RequestStatusService";
 import { useSnackbar } from "notistack";
@@ -29,7 +29,7 @@ export default function RequestTracker() {
   const [data, setData] = React.useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log("RequestTracker");
     const res = async () => {
       const data = await getStatus();
@@ -42,7 +42,7 @@ export default function RequestTracker() {
       }
     };
     res();
-  }, []);
+  }, [enqueueSnackbar]);
 
   return (
     <div style={{ height: 700, width: "100%" }}>
