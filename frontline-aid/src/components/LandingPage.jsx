@@ -12,7 +12,9 @@ import { makeStyles } from "@mui/styles";
 import theme from "../theme";
 import { v4 as uuidv4 } from "uuid";
 import CircularProgress from "@mui/material/CircularProgress";
-import { fetchCategories } from "../services/LandingPageService";
+import { fetchCategories, fetchAppName } from "../services/LandingPageService";
+import { Link } from "react-router-dom";
+import { getRouteFromName } from "../utils/common-utils";
 
 const styles = makeStyles({
   root: {
@@ -29,10 +31,21 @@ const styles = makeStyles({
 const LandingPage = () => {
   const classes = styles();
   const [categories, setCategories] = React.useState([]);
+  const [appName, setAppName] = React.useState("");
 
-  useEffect(async () => {
-    const categories = await fetchCategories();
-    setCategories(categories);
+  useEffect(() => {
+    const fetchCat = async () => {
+      const categories = await fetchCategories();
+      setCategories(categories);
+    };
+
+    const fetchName = async () => {
+      const appName = await fetchAppName();
+      setAppName(appName);
+    };
+
+    fetchCat();
+    fetchName();
   }, []);
 
   return (
@@ -43,7 +56,7 @@ const LandingPage = () => {
           fontWeight="bold"
           color={theme.palette.secondary.heading}
         >
-          FrontLine Aid
+          {appName}
         </Typography>
       </Grid>
       <Grid container marginTop="2.5rem" justifyContent="center">
@@ -63,19 +76,24 @@ const LandingPage = () => {
           categories.map((item) => {
             return (
               <Grid item key={uuidv4()}>
-                <Card onClick={() => console.log("clicked")}>
-                  <CardMedia
-                    component="img"
-                    image={item.imageUrl}
-                    height="250px"
-                    maxWidth={500}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" color={theme.palette.primary.main}>
-                      {item.displayName}
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <Link to={getRouteFromName(item.name)}>
+                  <Card>
+                    <CardMedia
+                      component="img"
+                      image={item.imageUrl}
+                      height="250px"
+                      maxWidth={500}
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="h6"
+                        color={theme.palette.primary.main}
+                      >
+                        {item.displayName}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
               </Grid>
             );
           })
