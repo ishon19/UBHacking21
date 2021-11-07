@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -11,7 +11,10 @@ import {
 import { makeStyles } from "@mui/styles";
 import theme from "../theme";
 import image from "../assets/background-1.jpg";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import CircularProgress from "@mui/material/CircularProgress";
+import { collection, doc, getDocs } from "firebase/firestore/lite";
+import { db } from "../server/Firebase";
 
 const styles = makeStyles({
   root: {
@@ -27,6 +30,21 @@ const styles = makeStyles({
 
 const LandingPage = () => {
   const classes = styles();
+  const [categories, setCategories] = React.useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const catCol = collection(db, "categories");
+      const snapshot = await getDocs(catCol);
+      const catList = [];
+      snapshot.docs.map((doc) => {
+        console.log(doc.data());
+        catList.push(doc.data());
+      });      
+      setCategories(catList);
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <Box sx={{ padding: "10px" }}>
@@ -52,25 +70,31 @@ const LandingPage = () => {
         spacing={1}
         justifyContent="space-around"
       >
-        {["Food", "Tranportation", "Utilities", "Reminders"].map((item) => {
-          return (
-            <Grid item key={uuidv4()}>
-              <Card onClick={() => console.log("clicked")}>
-                <CardMedia
-                  component="img"
-                  image={image}
-                  height="250px"
-                  maxWidth={500}
-                />
-                <CardContent>
-                  <Typography variant="h6" color={theme.palette.primary.main}>
-                    {item}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          );
-        })}
+        {categories.length > 0 ? (
+          categories.map((item) => {
+            return (
+              <Grid item key={uuidv4()}>
+                <Card onClick={() => console.log("clicked")}>
+                  <CardMedia
+                    component="img"
+                    image={image}
+                    height="250px"
+                    maxWidth={500}
+                  />
+                  <CardContent>
+                    <Typography variant="h6" color={theme.palette.primary.main}>
+                      {item.displayName}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })
+        ) : (
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress />
+          </Box>
+        )}
       </Grid>
       <Grid container justifyContent="center">
         <Grid item>

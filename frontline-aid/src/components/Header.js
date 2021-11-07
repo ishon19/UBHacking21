@@ -2,7 +2,7 @@ import { AppBar, IconButton, Toolbar, Typography, Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
-import { collection, doc, setDoc, getDoc } from "firebase/firestore/lite";
+import { doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../server/Firebase";
 
 const Header = () => {
