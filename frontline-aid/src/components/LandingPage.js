@@ -11,6 +11,7 @@ import {
 import { makeStyles } from "@mui/styles";
 import theme from "../theme";
 import image from "../assets/background-1.jpg";
+import { v4 as uuidv4 } from 'uuid';
 
 const styles = makeStyles({
   root: {
@@ -28,7 +29,7 @@ const LandingPage = () => {
   const classes = styles();
 
   return (
-    <Box sx={{padding: '10px'}}>
+    <Box sx={{ padding: "10px" }}>
       <Grid container marginTop="2.5rem" justifyContent="center">
         <Typography
           variant="h3"
@@ -53,8 +54,8 @@ const LandingPage = () => {
       >
         {["Food", "Tranportation", "Utilities", "Reminders"].map((item) => {
           return (
-            <Grid item>
-              <Card onClick={() => console.log("clicked")} on>
+            <Grid item key={uuidv4()}>
+              <Card onClick={() => console.log("clicked")}>
                 <CardMedia
                   component="img"
                   image={image}
