@@ -10,11 +10,9 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import theme from "../theme";
-import image from "../assets/background-1.jpg";
 import { v4 as uuidv4 } from "uuid";
 import CircularProgress from "@mui/material/CircularProgress";
-import { collection, doc, getDocs } from "firebase/firestore/lite";
-import { db } from "../server/Firebase";
+import { fetchCategories } from "../services/LandingPageService";
 
 const styles = makeStyles({
   root: {
@@ -32,18 +30,9 @@ const LandingPage = () => {
   const classes = styles();
   const [categories, setCategories] = React.useState([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const catCol = collection(db, "categories");
-      const snapshot = await getDocs(catCol);
-      const catList = [];
-      snapshot.docs.map((doc) => {
-        console.log(doc.data());
-        catList.push(doc.data());
-      });      
-      setCategories(catList);
-    };
-    fetchCategories();
+  useEffect(async () => {
+    const categories = await fetchCategories();
+    setCategories(categories);
   }, []);
 
   return (
@@ -77,7 +66,7 @@ const LandingPage = () => {
                 <Card onClick={() => console.log("clicked")}>
                   <CardMedia
                     component="img"
-                    image={image}
+                    image={item.imageUrl}
                     height="250px"
                     maxWidth={500}
                   />
