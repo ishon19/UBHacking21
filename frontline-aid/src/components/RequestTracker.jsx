@@ -33,7 +33,7 @@ export default function RequestTracker() {
     console.log("RequestTracker");
     const res = async () => {
       const data = await getStatus();
-      if (data) {
+      if (data.length > 0) {
         setData(data);
         enqueueSnackbar("Status fetched successfully", {
           variant: "success",
