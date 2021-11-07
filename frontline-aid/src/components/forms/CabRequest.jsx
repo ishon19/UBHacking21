@@ -7,25 +7,24 @@ import * as yup from "yup";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 
 const validationSchema = yup.object({
-  name: yup
-    .string("Enter the food item")
+  pickup: yup
+    .string("Enter your location")
     .min(1, "Enter at least one character")
-    .required("Food name is required"),
-  address: yup
-    .string("Enter Address")
-    .min(8, "Address should be atleast of 8 characters")
-    .required("Address is required"),
+    .required("Pickup location is required."),
+  destination: yup
+    .string("Where do you want to go?")
+    .min(1, "This field cannot be left blank.")
+    .required("This field is required"),
 });
 
-const FoodRequestForm = () => {
+const CabRequestForm = () => {
   const formik = useFormik({
     validationSchema: validationSchema,
     initialValues: {
-      name: "",
-      address: "",
+      pickup: "",
+      destination: "",
     },
     onSubmit: (values) => {
       // push the data to the database
@@ -48,42 +47,37 @@ const FoodRequestForm = () => {
         }}
       >
         <Typography variant="h5" color={theme.palette.primary.main}>
-          Request Food
+          Request Cab
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <Box mt="1rem" mb="1rem" padding="2rem">
             <Grid container direction="column" spacing={2}>
-              <Grid item>
-                <FormControl fullWidth>
-                  <InputLabel id="label">Select</InputLabel>
-                  <Select
-                    name="name"
-                    id="name"
-                    label="Food Item"
-                    value={formik.values.name}
+              <Grid item>        
+                  <TextField
+                    fullWidth
+                    required
+                    name="destination"
+                    id="destination"
+                    label="Destination"
+                    value={formik.values.destination}
                     onChange={formik.handleChange}
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                  >
-                    <MenuItem value="burgers">Burgers</MenuItem>
-                    <MenuItem value="subs">Subs</MenuItem>
-                    <MenuItem value="pasta">Pasta</MenuItem>
-                  </Select>
-                </FormControl>
+                    error={formik.touched.destination && Boolean(formik.errors.destination)}
+                    helperText={formik.touched.destination && formik.errors.destination}
+                  />                  
               </Grid>
               <Grid item>
                 <TextField
                   fullWidth
                   required
-                  id="address"
-                  name="address"
-                  label="Address"
-                  value={formik.values.address}
+                  id="pickup"
+                  name="pickup"
+                  label="Pick up location"
+                  value={formik.values.pickup}
                   onChange={formik.handleChange}
                   error={
-                    formik.touched.address && Boolean(formik.errors.address)
+                    formik.touched.pickup && Boolean(formik.errors.pickup)
                   }
-                  helperText={formik.touched.address && formik.errors.address}
+                  helperText={formik.touched.pickup && formik.errors.pickup}
                 />
               </Grid>
               <Grid item>
@@ -99,4 +93,4 @@ const FoodRequestForm = () => {
   );
 };
 
-export default FoodRequestForm;
+export default CabRequestForm;
