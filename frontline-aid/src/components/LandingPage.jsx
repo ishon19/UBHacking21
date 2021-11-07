@@ -12,7 +12,7 @@ import { makeStyles } from "@mui/styles";
 import theme from "../theme";
 import { v4 as uuidv4 } from "uuid";
 import CircularProgress from "@mui/material/CircularProgress";
-import { fetchCategories } from "../services/LandingPageService";
+import { fetchCategories, fetchAppName } from "../services/LandingPageService";
 
 const styles = makeStyles({
   root: {
@@ -29,10 +29,21 @@ const styles = makeStyles({
 const LandingPage = () => {
   const classes = styles();
   const [categories, setCategories] = React.useState([]);
+  const [appName, setAppName] = React.useState("");
 
-  useEffect(async () => {
-    const categories = await fetchCategories();
-    setCategories(categories);
+  useEffect(() => {
+    const fetchCat = async () => {
+      const categories = await fetchCategories();
+      setCategories(categories);
+    };
+
+    const fetchName = async () => {
+      const appName = await fetchAppName();
+      setAppName(appName);
+    };
+
+    fetchCat();
+    fetchName();
   }, []);
 
   return (
@@ -43,7 +54,7 @@ const LandingPage = () => {
           fontWeight="bold"
           color={theme.palette.secondary.heading}
         >
-          FrontLine Aid
+          {appName}
         </Typography>
       </Grid>
       <Grid container marginTop="2.5rem" justifyContent="center">

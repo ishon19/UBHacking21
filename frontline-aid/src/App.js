@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
+import { BrowserRouter } from "react-router-dom";
 
 import "./App.css";
 import LandingPage from "./components/LandingPage";
@@ -9,11 +10,13 @@ import theme from "./theme";
 function App() {
   const loggedIn = false;
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header />
-      {!loggedIn ? <LandingPage /> : <></>}
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header />
+        {!loggedIn ? <LandingPage /> : <></>}
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
