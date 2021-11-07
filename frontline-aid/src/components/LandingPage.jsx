@@ -13,6 +13,8 @@ import theme from "../theme";
 import { v4 as uuidv4 } from "uuid";
 import CircularProgress from "@mui/material/CircularProgress";
 import { fetchCategories, fetchAppName } from "../services/LandingPageService";
+import { Link } from "react-router-dom";
+import { getRouteFromName } from "../utils/common-utils";
 
 const styles = makeStyles({
   root: {
@@ -74,19 +76,24 @@ const LandingPage = () => {
           categories.map((item) => {
             return (
               <Grid item key={uuidv4()}>
-                <Card onClick={() => console.log("clicked")}>
-                  <CardMedia
-                    component="img"
-                    image={item.imageUrl}
-                    height="250px"
-                    maxWidth={500}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" color={theme.palette.primary.main}>
-                      {item.displayName}
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <Link to={getRouteFromName(item.name)}>
+                  <Card>
+                    <CardMedia
+                      component="img"
+                      image={item.imageUrl}
+                      height="250px"
+                      maxWidth={500}
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="h6"
+                        color={theme.palette.primary.main}
+                      >
+                        {item.displayName}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
               </Grid>
             );
           })

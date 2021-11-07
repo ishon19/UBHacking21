@@ -10,6 +10,9 @@ const theme = createTheme({
       heading: "#29A0B1",
       text: "#FAFAFA",
     },
+    whites: {
+        offWhite: "#FAFAFA",
+    }
   },
   typography: {
     fontFamily: "'Source Sans Pro'",
