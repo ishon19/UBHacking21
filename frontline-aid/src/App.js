@@ -33,11 +33,11 @@ function App() {
                 path="/request-utilities"
                 element={<FoodRequestForm />}
               />
-              <Route exact path="/request-cabs" element={<FoodRequestForm />} />
+              <Route exact path="/request-cabs" element={<CabRequestForm />} />
               <Route
                 exact
                 path="/request-reminders"
-                element={<FoodRequestForm />}
+                element={<CabRequestForm />}
               />
             </Routes>
           </Router>
