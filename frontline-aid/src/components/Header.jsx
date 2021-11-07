@@ -1,7 +1,7 @@
 import { AppBar, IconButton, Toolbar, Typography, Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import MenuIcon from "@mui/icons-material/Menu";
-import React from "react";
+import React, { useEffect } from "react";
 import { doc, setDoc } from "firebase/firestore/lite";
 import { db } from "../server/Firebase";
 import {
@@ -11,6 +11,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { useSnackbar } from "notistack";
+import { checkIfUserLoggedIn } from "../utils/common-utils";
 
 const Header = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -23,6 +24,14 @@ const Header = () => {
     });
 
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      const auth = await checkIfUserLoggedIn();
+      setLoggedIn(auth);
+    };
+    checkLoggedIn();
+  }, [loggedIn]);
 
   const handleAuth = () => {
     console.log("Login button clicked");
@@ -41,6 +50,7 @@ const Header = () => {
             autoHideDuration: 5000,
           });
           setLoggedIn(true);
+          localStorage.setItem("userInfo", JSON.stringify(result.user));
         })
         .catch((error) => {
           console.log("Error: ", error);
@@ -57,6 +67,7 @@ const Header = () => {
             variant: "success",
             autoHideDuration: 5000,
           });
+          localStorage.removeItem("userInfo");
           window.location.href = "/";
         })
         .catch((error) => {

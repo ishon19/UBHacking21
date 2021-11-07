@@ -4,9 +4,9 @@ import React from "react";
 import theme from "../../theme";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
+import { getUserId } from "../../utils/common-utils";
+import { doc, setDoc } from "firebase/firestore/lite";
+import { db } from "../../server/Firebase";
 
 const validationSchema = yup.object({
   pickup: yup
@@ -20,6 +20,18 @@ const validationSchema = yup.object({
 });
 
 const CabRequestForm = () => {
+  const _setDocs = async (values) => {
+    const userId = await getUserId();
+    console.log("User ID: ", userId, " and values: ", values);
+    if (userId) {
+      await setDoc(doc(db, "serviceRequests", "cabRequests"), {
+        ...values,
+        userId,
+        resolved: false,
+      });
+    }
+  };
+
   const formik = useFormik({
     validationSchema: validationSchema,
     initialValues: {
@@ -29,6 +41,7 @@ const CabRequestForm = () => {
     onSubmit: (values) => {
       // push the data to the database
       console.log(JSON.stringify(values, null, 2));
+      _setDocs(values);
     },
   });
 
@@ -52,18 +65,23 @@ const CabRequestForm = () => {
         <form onSubmit={formik.handleSubmit}>
           <Box mt="1rem" mb="1rem" padding="2rem">
             <Grid container direction="column" spacing={2}>
-              <Grid item>        
-                  <TextField
-                    fullWidth
-                    required
-                    name="destination"
-                    id="destination"
-                    label="Destination"
-                    value={formik.values.destination}
-                    onChange={formik.handleChange}
-                    error={formik.touched.destination && Boolean(formik.errors.destination)}
-                    helperText={formik.touched.destination && formik.errors.destination}
-                  />                  
+              <Grid item>
+                <TextField
+                  fullWidth
+                  required
+                  name="destination"
+                  id="destination"
+                  label="Destination"
+                  value={formik.values.destination}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.destination &&
+                    Boolean(formik.errors.destination)
+                  }
+                  helperText={
+                    formik.touched.destination && formik.errors.destination
+                  }
+                />
               </Grid>
               <Grid item>
                 <TextField
@@ -74,9 +92,7 @@ const CabRequestForm = () => {
                   label="Pick up location"
                   value={formik.values.pickup}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.pickup && Boolean(formik.errors.pickup)
-                  }
+                  error={formik.touched.pickup && Boolean(formik.errors.pickup)}
                   helperText={formik.touched.pickup && formik.errors.pickup}
                 />
               </Grid>

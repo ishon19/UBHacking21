@@ -9,16 +9,19 @@ import theme from "./theme";
 import FoodRequestForm from "./components/forms/FoodRequest";
 import { SnackbarProvider } from "notistack";
 import CabRequestForm from "./components/forms/CabRequest";
+import { checkIfUserLoggedIn } from "./utils/common-utils";
 
 function App() {
-  const loggedIn = false;
+  const loggedIn = checkIfUserLoggedIn();
+  console.log("loggedIn", loggedIn);
+  
   return (
     <div className="App">
       <SnackbarProvider
         maxSnack={3}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "right"
+          horizontal: "right",
         }}
       >
         <ThemeProvider theme={theme}>
@@ -27,17 +30,25 @@ function App() {
           <Router>
             <Routes>
               <Route exact path="/" element={<LandingPage />} />
-              <Route exact path="/request-food" element={<FoodRequestForm />} />
+              <Route
+                exact
+                path="/request-food"
+                element={loggedIn && <FoodRequestForm />}
+              />
               <Route
                 exact
                 path="/request-utilities"
-                element={<FoodRequestForm />}
+                element={loggedIn && <FoodRequestForm />}
               />
-              <Route exact path="/request-cabs" element={<CabRequestForm />} />
+              <Route
+                exact
+                path="/request-cabs"
+                element={loggedIn && <CabRequestForm />}
+              />
               <Route
                 exact
                 path="/request-reminders"
-                element={<CabRequestForm />}
+                element={loggedIn && <CabRequestForm />}
               />
             </Routes>
           </Router>

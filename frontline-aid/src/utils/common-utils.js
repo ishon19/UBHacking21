@@ -3,4 +3,21 @@ const getRouteFromName = (name) => {
   return routeName;
 };
 
-export { getRouteFromName };
+const checkIfUserLoggedIn = async () => {
+  const userInfo = await localStorage.getItem("userInfo");
+  if (userInfo) {
+    return true;
+  }
+  return false;
+};
+
+const getUserId = async () => {
+  const userInfo = await localStorage.getItem("userInfo");
+  if (userInfo) {
+    const userInfoParsed = JSON.parse(userInfo);
+    return userInfoParsed.uid;
+  }
+  return null;
+};
+
+export { getRouteFromName, checkIfUserLoggedIn, getUserId };

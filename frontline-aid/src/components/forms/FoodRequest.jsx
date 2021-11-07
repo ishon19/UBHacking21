@@ -8,6 +8,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { getUserId } from "../../utils/common-utils";
+import { doc, setDoc } from "firebase/firestore/lite";
+import { db } from "../../server/Firebase";
 
 const validationSchema = yup.object({
   name: yup
@@ -21,6 +24,18 @@ const validationSchema = yup.object({
 });
 
 const FoodRequestForm = () => {
+  const _setDocs = async (values) => {
+    const userId = await getUserId();
+    console.log("User ID: ", userId, " and values: ", values);
+    if (userId) {
+      await setDoc(doc(db, "serviceRequests", "foodRequests"), {
+        ...values,
+        userId,
+        resolved: false,
+      });
+    }
+  };
+
   const formik = useFormik({
     validationSchema: validationSchema,
     initialValues: {
@@ -30,6 +45,7 @@ const FoodRequestForm = () => {
     onSubmit: (values) => {
       // push the data to the database
       console.log(JSON.stringify(values, null, 2));
+      _setDocs(values);
     },
   });
 

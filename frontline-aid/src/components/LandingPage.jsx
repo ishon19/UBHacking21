@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 import CircularProgress from "@mui/material/CircularProgress";
 import { fetchCategories, fetchAppName } from "../services/LandingPageService";
 import { Link } from "react-router-dom";
-import { getRouteFromName } from "../utils/common-utils";
+import { checkIfUserLoggedIn, getRouteFromName } from "../utils/common-utils";
 
 const styles = makeStyles({
   root: {
@@ -32,6 +32,15 @@ const LandingPage = () => {
   const classes = styles();
   const [categories, setCategories] = React.useState([]);
   const [appName, setAppName] = React.useState("");
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      const isLoggedIn = await checkIfUserLoggedIn();
+      setIsLoggedIn(isLoggedIn);
+    };
+    checkLoggedIn();
+  });
 
   useEffect(() => {
     const fetchCat = async () => {
@@ -85,7 +94,7 @@ const LandingPage = () => {
                       component="img"
                       image={item.imageUrl}
                       height="250px"
-                      width="300px"                      
+                      width="300px"
                     />
                     <CardContent>
                       <Typography
@@ -106,13 +115,13 @@ const LandingPage = () => {
           </Box>
         )}
       </Grid>
-      <Grid container justifyContent="center">
+      {isLoggedIn && <Grid container justifyContent="center">
         <Grid item>
           <Button color="primary" variant="contained" className={classes.root}>
             Go to home page
           </Button>
         </Grid>
-      </Grid>
+      </Grid>}
     </Box>
   );
 };
