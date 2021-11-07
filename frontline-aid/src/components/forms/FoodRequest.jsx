@@ -7,13 +7,13 @@ import * as yup from "yup";
 
 const validationSchema = yup.object({
   name: yup
-    .string("Enter your email")
-    .min(1, "Enter atleast one character")
-    .required("Item name is required"),
-  description: yup
-    .string("Enter description")
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
+    .string("Enter the food item")
+    .min(1, "Enter at least one character")
+    .required("Food name is required"),
+  address: yup
+    .string("Enter Address")
+    .min(8, "Address should be atlease of 8 characters")
+    .required("Address is required"),
 });
 
 const FoodRequestForm = () => {
@@ -21,10 +21,9 @@ const FoodRequestForm = () => {
     validationSchema: validationSchema,
     initialValues: {
       name: "",
-      description: "",
+      address: "",
     },
     onSubmit: (values) => {
-      console.log("Test");
       console.log(JSON.stringify(values, null, 2));
     },
   });
@@ -66,18 +65,15 @@ const FoodRequestForm = () => {
                 <TextField
                   fullWidth
                   required
-                  id="description"
-                  name="description"
-                  label="Description"
-                  value={formik.values.description}
+                  id="address"
+                  name="address"
+                  label="Address"
+                  value={formik.values.address}
                   onChange={formik.handleChange}
                   error={
-                    formik.touched.description &&
-                    Boolean(formik.errors.description)
+                    formik.touched.address && Boolean(formik.errors.address)
                   }
-                  helperText={
-                    formik.touched.description && formik.errors.description
-                  }
+                  helperText={formik.touched.address && formik.errors.address}
                 />
               </Grid>
               <Grid item>
